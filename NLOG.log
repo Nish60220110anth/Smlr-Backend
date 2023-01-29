@@ -1,0 +1,4 @@
+PREFIX: 13:06:23 main.go:32: Server Created
+PREFIX: 13:06:23 main.go:55: Server Started
+PREFIX: 13:06:33 main.go:75: Server Manually Closed
+PREFIX: 13:06:33 main.go:62: Closing all channels
