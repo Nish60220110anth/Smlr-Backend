@@ -2,7 +2,13 @@ package main
 
 import (
 	"fmt"
+	"go_backend/routes/about"
+	"go_backend/routes/contacts"
+	"go_backend/routes/danger"
+	"go_backend/routes/hospital"
 	"go_backend/routes/index"
+	"go_backend/routes/table"
+	"go_backend/routes/userinfo"
 	"log"
 	"net/http"
 	"os"
@@ -46,6 +52,27 @@ func CreateServer(pLog *log.Logger, eLogger *log.Logger) {
 
 func InitializeGinEngine() {
 	serverEngine.GET("/", index.Get)
+	serverEngine.GET("/about", about.Get)
+	serverEngine.POST("/about", about.Post)
+
+	serverEngine.GET("/contacts", contacts.Get)
+	serverEngine.POST("/contacts", contacts.Post)
+	serverEngine.DELETE("/contacts", contacts.Delete)
+
+	serverEngine.GET("/danger", danger.Get)
+	serverEngine.POST("/danger", danger.Post)
+
+	serverEngine.GET("/hospital", hospital.Get)
+	serverEngine.POST("/hospital", hospital.Post)
+	serverEngine.DELETE("/hospital", hospital.Delete)
+
+	serverEngine.GET("/table", table.Get)
+	serverEngine.POST("/table", table.Post)
+
+	serverEngine.GET("/userinfo", userinfo.Get)
+	serverEngine.POST("/userinfo", userinfo.Post)
+	serverEngine.PUT("/userinfo", userinfo.Update)
+	serverEngine.DELETE("/userinfo", userinfo.Delete)
 }
 
 func StartServer(pLog *log.Logger, eLog *log.Logger) {

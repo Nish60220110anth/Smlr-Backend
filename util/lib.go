@@ -57,6 +57,14 @@ func GetErrorLogger() *log.Logger {
 	return log.New(fileHandle, fmt.Sprintf("PREFIX: "), log.Ltime|log.Lshortfile)
 }
 
+type ClientTableWithName interface {
+	GetTableName() string
+}
+
+func DebugPrint(fileName string, funcName string, msg string) {
+	fmt.Printf("{%v} {%v} {%v}", fileName, funcName, msg)
+}
+
 func GetLogger() *log.Logger {
 	fileHandle, err := os.OpenFile(GetFilePath(viper.GetString("LOG_FILE")),
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -66,4 +74,8 @@ func GetLogger() *log.Logger {
 	}
 
 	return log.New(fileHandle, fmt.Sprintf("PREFIX: "), log.Ltime|log.Lshortfile)
+}
+
+func GetDataBaseName() string {
+	return viper.GetString("DATABASE_TABLE_NAME")
 }

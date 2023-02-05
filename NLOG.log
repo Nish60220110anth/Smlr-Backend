@@ -2,3 +2,50 @@ PREFIX: 13:06:23 main.go:32: Server Created
 PREFIX: 13:06:23 main.go:55: Server Started
 PREFIX: 13:06:33 main.go:75: Server Manually Closed
 PREFIX: 13:06:33 main.go:62: Closing all channels
+PREFIX: 17:04:56 main.go:38: Server Created
+PREFIX: 17:04:56 main.go:75: Server Started
+PREFIX: 17:05:56 main.go:95: Server Manually Closed
+PREFIX: 17:05:56 main.go:82: Closing all channels
+PREFIX: 17:06:05 main.go:38: Server Created
+PREFIX: 17:06:05 main.go:75: Server Started
+PREFIX: 17:07:05 main.go:95: Server Manually Closed
+PREFIX: 17:07:57 main.go:38: Server Created
+PREFIX: 17:07:57 main.go:75: Server Started
+PREFIX: 17:08:57 main.go:95: Server Manually Closed
+PREFIX: 17:08:57 main.go:82: Closing all channels
+PREFIX: 17:09:56 main.go:38: Server Created
+PREFIX: 17:09:56 main.go:75: Server Started
+PREFIX: 17:10:57 main.go:95: Server Manually Closed
+PREFIX: 17:12:49 main.go:38: Server Created
+PREFIX: 17:12:49 main.go:75: Server Started
+PREFIX: 17:13:49 main.go:95: Server Manually Closed
+PREFIX: 17:18:40 main.go:38: Server Created
+PREFIX: 17:18:40 main.go:75: Server Started
+PREFIX: 17:19:59 main.go:38: Server Created
+PREFIX: 17:19:59 main.go:75: Server Started
+PREFIX: 18:04:49 main.go:38: Server Created
+PREFIX: 18:04:49 main.go:75: Server Started
+PREFIX: 18:06:05 main.go:38: Server Created
+PREFIX: 18:06:05 main.go:75: Server Started
+PREFIX: 18:17:37 main.go:38: Server Created
+PREFIX: 18:17:37 main.go:75: Server Started
+PREFIX: 18:21:08 main.go:38: Server Created
+PREFIX: 18:21:08 main.go:75: Server Started
+PREFIX: 18:27:19 main.go:38: Server Created
+PREFIX: 18:27:19 main.go:75: Server Started
+PREFIX: 18:28:48 main.go:38: Server Created
+PREFIX: 18:28:48 main.go:75: Server Started
+PREFIX: 18:29:48 main.go:95: Server Manually Closed
+PREFIX: 18:30:07 main.go:38: Server Created
+PREFIX: 18:30:07 main.go:75: Server Started
+PREFIX: 18:30:53 main.go:38: Server Created
+PREFIX: 18:30:53 main.go:75: Server Started
+PREFIX: 20:49:36 main.go:38: Server Created
+PREFIX: 20:49:36 main.go:75: Server Started
+PREFIX: 20:51:24 main.go:38: Server Created
+PREFIX: 20:51:24 main.go:75: Server Started
+PREFIX: 20:51:39 main.go:95: Server Manually Closed
+PREFIX: 20:51:39 main.go:82: Closing all channels
+PREFIX: 20:51:48 main.go:38: Server Created
+PREFIX: 20:51:48 main.go:75: Server Started
+PREFIX: 20:52:03 main.go:95: Server Manually Closed
