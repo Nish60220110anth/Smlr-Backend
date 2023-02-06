@@ -81,11 +81,11 @@ func Post(ctx *gin.Context) {
 	tableOps := &TableOperation{}
 	err := ctx.BindJSON(tableOps)
 	CheckError(err)
-	util.DebugPrint(FILENAME, "POST", fmt.Sprintf("%v", tableOps))
+	util.DebugPrint(FILENAME, "POST", fmt.Sprintf("{%v}", tableOps))
 
 	if tableOps.Operation == "CREATE" {
-
-		_, err := client.CreateTable(context.TODO(), &dynamodb.CreateTableInput{
+		fmt.Println("Create Called")
+		_, err := client.CreateTable(context.Background(), &dynamodb.CreateTableInput{
 			AttributeDefinitions: []types.AttributeDefinition{{
 				AttributeName: aws.String(tableOps.PrimKeyName),
 				AttributeType: types.ScalarAttributeTypeS,
@@ -102,8 +102,8 @@ func Post(ctx *gin.Context) {
 			}},
 			TableName: aws.String(tableOps.Name),
 			ProvisionedThroughput: &types.ProvisionedThroughput{
-				ReadCapacityUnits:  aws.Int64(5),
-				WriteCapacityUnits: aws.Int64(5),
+				ReadCapacityUnits:  aws.Int64(3),
+				WriteCapacityUnits: aws.Int64(3),
 			},
 		})
 

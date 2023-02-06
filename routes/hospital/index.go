@@ -116,10 +116,10 @@ func Get(ctx *gin.Context) {
 
 func Post(ctx *gin.Context) {
 	util.DebugPrint(FILENAME, "POST", "Just Test")
-	hospital := Hospital{}
+	hospital := &Hospital{}
 	err := ctx.BindJSON(hospital)
 	CheckError(err)
-	err = tClient.InsertContact(&hospital)
+	err = tClient.InsertContact(hospital)
 	CheckError(err)
 }
 

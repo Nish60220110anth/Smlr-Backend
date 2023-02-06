@@ -1,7 +1,9 @@
 package userinfo
 
 import (
+	"cloud.google.com/go/civil"
 	"context"
+	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -74,13 +76,13 @@ func (rawWorkInfo *RawWorkerInfo) ConvertToWorkInfo() *WorkerInfo {
 	workInfo.FillRawFields(rawWorkInfo)
 	workInfo.Name = "Just-xxx"
 	workInfo.TreatedDoctor = "Just-Doc-XXX"
-	workInfo.Date = time.Now().Format(time.UnixDate)
+	workInfo.Date = civil.DateOf(time.Now()).String()
 
 	return workInfo
 }
 
 func (wInfo *WorkerInfo) GetKey() map[string]types.AttributeValue {
-	return map[string]types.AttributeValue{"Id": &types.AttributeValueMemberS{Value: wInfo.Id}}
+	return map[string]types.AttributeValue{"Id": &types.AttributeValueMemberS{Value: wInfo.Id}, "Date": &types.AttributeValueMemberS{Value: wInfo.Date}}
 }
 
 func (workerInfo *WorkerInfo) FillRawFields(ruserInfo *RawWorkerInfo) {
@@ -117,7 +119,9 @@ func (tClient *TClientUserInfo) GetAllWorkerInfo(startDate, endDate string) []Wo
 	var response *dynamodb.ScanOutput
 	filtExpre := expression.Name("Date").Between(expression.Value(startDate), expression.Value(endDate))
 	projEx := expression.NamesList(
-		expression.Name("Id"), expression.Name("Name"), expression.Name("TreatedDoctor"))
+		expression.Name("Id"), expression.Name("Date"), expression.Name("TreatedDoctor"),
+		expression.Name("Name"), expression.Name("Spo2Level"), expression.Name("GasLevel"),
+		expression.Name("Temperature"), expression.Name("DangerType"), expression.Name("HeartRate"))
 	expr, err := expression.NewBuilder().WithFilter(filtExpre).WithProjection(projEx).Build()
 	if err != nil {
 		log.Printf("Couldn't build expressions for scan. Here's why: %v\n", err)
@@ -159,7 +163,7 @@ func (tClient *TClientUserInfo) GetWorkerInfoOnQuery() {
 }
 
 func (tClient *TClientUserInfo) DeleteWorkerInfo(info WorkerInfo) error {
-	_, err := tClient.DynamoDbClient.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
+	_, err := tClient.DynamoDbClient.DeleteItem(context.Background(), &dynamodb.DeleteItemInput{
 		TableName: aws.String(tClient.TableName), Key: info.GetKey(),
 	})
 	if err != nil {
@@ -173,6 +177,8 @@ func (tClient *TClientUserInfo) UpdateWorkerInfo(workerInfo *WorkerInfo) (map[st
 	var response *dynamodb.UpdateItemOutput
 	var attributeMap map[string]interface{}
 
+	fmt.Println("Update Called")
+
 	update := expression.Set(expression.Name("Name"), expression.Value(workerInfo.Name))
 	update.Set(expression.Name("Spo2Level"), expression.Value(workerInfo.Spo2Level))
 	update.Set(expression.Name("Temperature"), expression.Value(workerInfo.Temperature))
@@ -185,7 +191,7 @@ func (tClient *TClientUserInfo) UpdateWorkerInfo(workerInfo *WorkerInfo) (map[st
 	if err != nil {
 		log.Printf("Couldn't build expression for update. Here's why: %v\n", err)
 	} else {
-		response, err = tClient.DynamoDbClient.UpdateItem(context.TODO(), &dynamodb.UpdateItemInput{
+		response, err = tClient.DynamoDbClient.UpdateItem(context.Background(), &dynamodb.UpdateItemInput{
 			TableName:                 aws.String(tClient.TableName),
 			Key:                       workerInfo.GetKey(),
 			ExpressionAttributeNames:  expr.Names(),
@@ -194,7 +200,7 @@ func (tClient *TClientUserInfo) UpdateWorkerInfo(workerInfo *WorkerInfo) (map[st
 			ReturnValues:              types.ReturnValueUpdatedNew,
 		})
 		if err != nil {
-			log.Printf("Couldn't update workerInfo %v. Reason => %v\n", workerInfo, err)
+			log.Printf("Couldn't update workerInfo %v. Reason => %v\n", *workerInfo, err)
 		} else {
 			err = attributevalue.UnmarshalMap(response.Attributes, &attributeMap)
 			if err != nil {
@@ -261,7 +267,7 @@ func Get(ctx *gin.Context) {
 
 func Post(ctx *gin.Context) {
 	util.DebugPrint(FILENAME, "POST", "Just Test")
-	rworkInfo := RawWorkerInfo{}
+	rworkInfo := &RawWorkerInfo{}
 	err := ctx.BindJSON(rworkInfo)
 	CheckError(err)
 	workInfo := rworkInfo.ConvertToWorkInfo()
@@ -270,10 +276,10 @@ func Post(ctx *gin.Context) {
 }
 
 func Update(ctx *gin.Context) {
-	workInfo := WorkerInfo{}
+	workInfo := &WorkerInfo{}
 	err := ctx.BindJSON(workInfo)
 	CheckError(err)
-	_, err = tClient.UpdateWorkerInfo(&workInfo)
+	_, err = tClient.UpdateWorkerInfo(workInfo)
 	CheckError(err)
 }
 
