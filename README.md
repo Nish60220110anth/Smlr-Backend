@@ -5,3 +5,5 @@ Smlr-Backend is a backend written as a part of *Helsafe* project for Inter-IIT T
 1. API calls to store refined data recorded from smart helmet in aws
 2. Error logging functionality
 3. Multi threaded application
+
+(Note: Hosted currently in Elastic bean stalk without SSL certificate)
